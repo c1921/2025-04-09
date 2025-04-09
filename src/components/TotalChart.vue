@@ -21,7 +21,7 @@ const initialData = Array(MAX_DATA_POINTS).fill(0);
 const chartData = ref({
   labels: initialLabels,
   datasets: [{
-    label: '点击总数',
+    label: 'Total Points',
     backgroundColor: 'rgba(25, 118, 210, 0.6)',
     borderColor: '#1976d2',
     borderWidth: 1,
@@ -37,7 +37,7 @@ const chartOptions = {
     x: {
       title: {
         display: true,
-        text: '秒前'
+        text: 'Seconds Ago'
       },
       // 反转X轴，使数据从右向左更新，但显示的标签仍然是60到1
       reverse: true
