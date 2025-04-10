@@ -6,6 +6,7 @@ import CountDisplay from './CountDisplay.vue'
 import ControlButtons from './ControlButtons.vue'
 import AutoClicker from './AutoClicker.vue'
 import DataManager from './DataManager.vue'
+import UnitList from './UnitList.vue'
 
 // 从localStorage加载数据的函数
 function loadFromStorage(key: string, defaultValue: any) {
@@ -31,6 +32,10 @@ function saveToStorage(key: string, value: any) {
 const manualClickCount = ref(loadFromStorage('manualClickCount', 0))  // 手动点击产生的数值
 const autoClickCount = ref(loadFromStorage('autoClickCount', 0))    // 自动点击产生的数值
 const aCount = ref(loadFromStorage('aCount', 0))                    // A的数值
+
+// 单位系统
+const units = ref(loadFromStorage('units', []))                     // 存储所有单位
+const unitCost = 1                                                  // 每个单位消耗1个A
 
 // 计算总数值 - 作为核心资源
 const totalCount = computed(() => manualClickCount.value + autoClickCount.value)
@@ -89,6 +94,24 @@ const activateAutoClicker = () => {
   }, 1000) as unknown as number
 }
 
+// 购买单位
+const purchaseUnit = () => {
+  if (aCount.value >= unitCost) {
+    // 消耗A值
+    aCount.value -= unitCost
+    
+    // 创建新单位
+    const newUnit = {
+      id: Date.now(),
+      alpha: Math.floor(Math.random() * 10) + 1,  // 1-10的随机值
+      beta: Math.floor(Math.random() * 10) + 1    // 1-10的随机值
+    }
+    
+    // 添加到单位列表
+    units.value.push(newUnit)
+  }
+}
+
 // 监听数据变化并保存到localStorage
 watch(manualClickCount, (newValue) => {
   saveToStorage('manualClickCount', newValue)
@@ -100,6 +123,10 @@ watch(autoClickCount, (newValue) => {
 
 watch(aCount, (newValue) => {
   saveToStorage('aCount', newValue)
+})
+
+watch(units, (newValue) => {
+  saveToStorage('units', newValue)
 })
 
 watch(autoClickerActive, (newValue) => {
@@ -122,6 +149,7 @@ const resetGame = () => {
   manualClickCount.value = 0
   autoClickCount.value = 0
   aCount.value = 0
+  units.value = []
   autoClickerActive.value = false
   
   // 清除自动点击器
@@ -134,6 +162,7 @@ const resetGame = () => {
   localStorage.removeItem('manualClickCount')
   localStorage.removeItem('autoClickCount')
   localStorage.removeItem('aCount')
+  localStorage.removeItem('units')
   localStorage.removeItem('autoClickerActive')
   
   // 清除图表数据
@@ -177,8 +206,21 @@ onUnmounted(() => {
         @purchase-auto-clicker="purchaseAutoClicker"
       />
       
+      <!-- 购买单位按钮 -->
+      <div class="d-flex justify-content-center mb-3">
+        <button 
+          @click="purchaseUnit" 
+          class="btn btn-outline-primary"
+          :disabled="aCount < unitCost">
+          Buy Unit (Cost: {{ unitCost }} A)
+        </button>
+      </div>
+      
       <!-- 自动点击器组件 -->
       <AutoClicker :auto-clicker-active="autoClickerActive" />
+      
+      <!-- 单位列表组件 -->
+      <UnitList :units="units" />
       
       <!-- 图表组件 -->
       <div class="d-flex flex-column gap-4 mt-4">
