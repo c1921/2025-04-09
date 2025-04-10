@@ -181,13 +181,13 @@ onUnmounted(() => {
       <AutoClicker :auto-clicker-active="autoClickerActive" />
       
       <!-- 图表组件 -->
-      <div class="charts-container">
-        <div class="mt-4">
+      <div class="d-flex flex-column gap-4 mt-4">
+        <div>
           <p class="text-muted small">Clicks Per Second</p>
           <ClickChart :count="totalCount" />
         </div>
         
-        <div class="mt-4">
+        <div>
           <p class="text-muted small">Total Points Over Time</p>
           <TotalChart :count="totalCount" />
         </div>
@@ -205,23 +205,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.card {
-  max-width: 800px;
-  margin: 0 auto;
-  border-radius: 10px;
-}
-
-.charts-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-@media (min-width: 992px) {
-  .card {
-    max-width: 1200px;
-  }
-}
-</style>

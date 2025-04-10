@@ -138,7 +138,7 @@ const importData = (event: Event) => {
 </script>
 
 <template>
-  <div class="mt-4 save-controls">
+  <div class="mt-4">
     <div class="alert alert-success" v-if="importSuccess">
       Save data imported successfully!
     </div>
@@ -159,14 +159,4 @@ const importData = (event: Event) => {
       </button>
     </div>
   </div>
-</template>
-
-<style scoped>
-.save-controls {
-  margin-top: 1.5rem;
-}
-
-.save-controls .alert {
-  margin-bottom: 1rem;
-}
-</style> 
+</template> 

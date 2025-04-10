@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   totalCount: number
   autoClickerCost: number
   autoClickerActive: boolean
@@ -13,11 +13,11 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="buttons-container mb-3">
-    <button @click="emit('increment')" class="btn btn-primary me-2">Click</button>
+  <div class="d-flex justify-content-center gap-2 mb-3">
+    <button @click="emit('increment')" class="btn btn-primary">Click</button>
     <button 
       @click="emit('convertToA')" 
-      class="btn btn-warning me-2"
+      class="btn btn-warning"
       :disabled="totalCount < 1">
       Convert to A (Cost: 1)
     </button>
@@ -29,12 +29,4 @@ const emit = defineEmits<{
       <span v-else>Auto Active</span>
     </button>
   </div>
-</template>
-
-<style scoped>
-.buttons-container {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-}
-</style> 
+</template> 

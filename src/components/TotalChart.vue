@@ -139,11 +139,3 @@ onMounted(() => {
     <Bar :data="chartData" :options="chartOptions" height="250" />
   </div>
 </template>
-
-<style scoped>
-.chart-container {
-  margin-top: 2rem;
-  position: relative;
-  height: 250px;
-}
-</style> 
